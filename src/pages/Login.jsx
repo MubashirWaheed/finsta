@@ -1,17 +1,31 @@
 import React, { useState } from "react";
-import instagram from "../assets/instagram.png";
-import { Box, Grid, Button, Divider } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Button,
+  Divider,
+  Typography,
+  Alert,
+  Fade,
+  Paper,
+  Card,
+  CardMedia,
+  CardActions,
+} from "@mui/material";
 import LoginForm from "../components/LoginForm";
-import { ReactComponent as Google } from "../assets/svgs/google.svg";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { ReactComponent as Google } from "../assets/svgs/google.svg";
+import instagram from "../assets/instagram.png";
+
 const Login = () => {
   const { setUser } = useAuth();
   const provider = new GoogleAuthProvider();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -27,43 +41,91 @@ const Login = () => {
 
   return (
     <div>
-      <Grid
-        container
-        direction="column"
+      <Box
+        display="flex"
+        flexDirection="coloumn"
+        justifyContent="center"
         alignItems="center"
-        style={{ minHeight: "100vh" }}
+        sx={{
+          background: "#fafafa",
+
+          width: "100%",
+        }}
       >
-        <Grid item xs={3} sx={{ mb: 5, mt: 12 }}>
+        <Card
+          elevation={3}
+          sx={{
+            direction: "column",
+            alignItems: "center",
+            p: 3,
+            mt: 4,
+            backgroundColor: "#fff",
+            width: "375px",
+            minHeight: { xs: "100vh", md: "90vh" },
+          }}
+        >
           <Box
-            component="img"
-            sx={{
-              width: 200,
-              // border: "1px dashed grey",
-              maxHeight: { xs: 233, md: 167 },
-              maxWidth: { xs: 350, md: 250 },
-            }}
-            alt="Instagram logo."
-            src={instagram}
-          />
-        </Grid>
-        <Grid item>
-          <LoginForm />
-          <Divider sx={{ borderBottomWidth: 35, mt: 2 }}>OR</Divider>
-        </Grid>
-        <Grid item>
-          <Button
             display="flex"
-            sx={{ textTransform: "none", gap: 1 }}
-            disabled={loading}
-            onClick={handleGoogleLogin}
+            justifyContent="center"
+            sx={{
+              width: "100%",
+              mt: 2,
+              mb: 2,
+            }}
           >
-            <Google />
-            Login with Google
-          </Button>
-        </Grid>
-      </Grid>
+            <CardMedia
+              sx={{
+                width: 200,
+                maxHeight: { xs: 233, md: 167 },
+                maxWidth: { xs: 350, md: 250 },
+              }}
+              component="img"
+              alt="Instagram logo."
+              src={instagram}
+            />
+          </Box>
+
+          {error && (
+            <Fade
+              in={error}
+              timeout={{ enter: 1000, exit: 2000 }}
+              addEndListener={() => {
+                setTimeout(() => {
+                  setError(false);
+                }, 3000);
+              }}
+            >
+              <Alert severity="error" sx={{ mb: 3, width: "100%" }}>
+                Wrong Credentials
+              </Alert>
+            </Fade>
+          )}
+
+          <LoginForm setError={setError} />
+
+          <Divider sx={{ borderBottomWidth: 35, mt: 2 }}>OR</Divider>
+
+          <CardActions sx={{ display: "flex", flexDirection: "column" }}>
+            <Button
+              display="flex"
+              sx={{ textTransform: "none", gap: 1 }}
+              disabled={loading}
+              onClick={handleGoogleLogin}
+            >
+              <Google />
+              Login with Google
+            </Button>
+
+            <Typography variant="subtitle2" gutterBottom sx={{ mt: 2 }}>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </Typography>
+          </CardActions>
+        </Card>
+      </Box>
     </div>
   );
 };
+
+// xs={3} sx={{ }}
 
 export default Login;
