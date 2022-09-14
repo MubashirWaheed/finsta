@@ -90,7 +90,7 @@ const LoginForm = ({ setError }) => {
                 id="password"
                 name="password"
                 label="Password"
-                value={value.email}
+                value={value.password}
                 type="password"
                 variant="outlined"
                 size="small"

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   Box,
   Button,
@@ -6,20 +7,28 @@ import {
   Typography,
   Alert,
   Fade,
-  Card,
   CardMedia,
   CardActions,
   Container,
-  CssBaseline,
 } from "@mui/material";
 import LoginForm from "../components/LoginForm";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthCard } from "../utils/styles/AuthCard";
 import { ReactComponent as Google } from "../assets/svgs/google.svg";
 import instagram from "../assets/instagram.png";
+
+const formLinks = [
+  "Meta",
+  "About",
+  "Blog",
+  "Jobs",
+  "API",
+  "Privacy",
+  "Terms",
+  "Instagram Lite",
+];
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -41,8 +50,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <Container sx={{ p: 0 }} background="#fafafa" maxWidth="md">
+    <div style={{ background: "#fafafa" }}>
+      <Container sx={{ p: 0 }} maxWidth="md">
         <Box
           display="flex"
           flexDirection="column"
@@ -132,14 +141,11 @@ const Login = () => {
               flexWrap="wrap"
               color="#8e8e8e"
             >
-              <Typography variant="caption">Meta</Typography>
-              <Typography variant="caption">About</Typography>
-              <Typography variant="caption">Blog</Typography>
-              <Typography variant="caption">Jobs</Typography>
-              <Typography variant="caption">API</Typography>
-              <Typography variant="caption">Privacy</Typography>
-              <Typography variant="caption">Terms</Typography>
-              <Typography variant="caption">Instagram Lite</Typography>
+              {formLinks.map((link) => (
+                <Typography key={link} variant="caption">
+                  {link}
+                </Typography>
+              ))}
             </Box>
           </AuthCard>
         </Box>
