@@ -1,22 +1,26 @@
 import {
   Avatar,
   Button,
+  Box,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { getAuth, signOut } from "firebase/auth";
+// import { getAuth, signOut } from "firebase/auth";
 import React from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
-import { Box } from "@mui/system";
+import Suggestions from "../components/Suggestions";
+import { useState } from "react";
+
 const Home = () => {
-  const { user } = useAuth();
+  const { user, addPost } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
-  const sm = useMediaQuery(theme.breakpoints.up("sm"));
   const md = useMediaQuery(theme.breakpoints.up("md"));
+  const sm = useMediaQuery(theme.breakpoints.up("sm"));
+  const [showSuggestions, setShowSuggestions] = useState(true);
   return (
     <div>
       <Box
@@ -46,56 +50,9 @@ const Home = () => {
           />
         </Box>
 
-        <Box
-          display="flex"
-          flexDirection="column"
-          width={300}
-          // bgcolor="lightblue"
-          height={300}
-          marginTop={5}
-          p={2}
-          sx={{ display: md ? "flex" : "none" }}
-        >
-          <Typography>Suggestion for you</Typography>
-
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            // gap={2}
-            // p={2}
-          >
-            <Box display="flex" gap={2} marginY={1}>
-              <Avatar sx={{ width: 28, height: 28 }}>M</Avatar>
-              <Typography varaint="h6">Jhon</Typography>
-            </Box>
-            <Button sx={{ fontWeight: 700 }}>Follow</Button>
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            // p={2}
-          >
-            <Box display="flex" gap={2}>
-              <Avatar sx={{ width: 28, height: 28 }}>M</Avatar>
-              <Typography varaint="h6">Jhon</Typography>
-            </Box>
-            <Button sx={{ fontWeight: 700 }}>Follow</Button>
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            // p={2}
-          >
-            <Box display="flex" gap={2}>
-              <Avatar sx={{ width: 28, height: 28 }}>M</Avatar>
-              <Typography varaint="h6">Jhon</Typography>
-            </Box>
-            <Button sx={{ fontWeight: 700 }}>Follow</Button>
-          </Box>
-        </Box>
+        {showSuggestions && (
+          <Suggestions setShowSuggestions={setShowSuggestions} />
+        )}
       </Box>
     </div>
   );
