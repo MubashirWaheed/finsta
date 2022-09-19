@@ -27,16 +27,16 @@ const Suggestions = ({ setShowSuggestions }) => {
     const data = await getSuggestions(loggedUserID);
     setUserSuggestions(data);
     if (data.length < 1) {
-      console.log("userSuggestions", userSuggestions);
+      // console.log("userSuggestions", userSuggestions);
       count.current = count.current + 1;
-      console.log("count:", count.current);
+      // console.log("count:", count.current);
     } else {
       count.current = 0;
-      console.log("count:", count.current);
+      // console.log("count:", count.current);
     }
 
     if (count.current === 6) {
-      console.log("no user found");
+      // console.log("no user found");
       setShowSuggestions(false);
     }
     setLoading(false);

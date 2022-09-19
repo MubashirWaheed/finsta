@@ -39,8 +39,7 @@ const SignUpForm = () => {
         data.password
       );
       console.log("userCredential", userCredential);
-      //   setUser(userCredential.user);
-      navigate("/user-details");
+      navigate("/settings");
     } catch (error) {
       //   setError(true);
       console.log("Error", error);

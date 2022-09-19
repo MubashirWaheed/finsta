@@ -20,6 +20,8 @@ const PostCard = ({ link }) => {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.up("sm"));
 
+  // how do I create tehe feed?
+  // so that when new post are uploaded the are addedd at tehstart of the feed
   return (
     <Card
       elevation={3}

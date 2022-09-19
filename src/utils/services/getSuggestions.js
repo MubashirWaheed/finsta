@@ -19,7 +19,7 @@ export const getSuggestions = async (loggedUserID) => {
   const userRef = collection(db, "users");
   const q = query(userRef, where("random", ">=", Math.random()), limit(5));
   const querySnapshot = await getDocs(q);
-  console.log("hello");
+  // console.log("hello");
   return querySnapshot.docs
     .map((obj) => ({
       ...obj.data(),

@@ -2,7 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -11,6 +11,7 @@ export const useAuth = () => {
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [addPost, setAddPost] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -20,7 +21,9 @@ export const AuthContextProvider = ({ children }) => {
     return unsubscribe;
   }, []);
   return (
-    <AuthContext.Provider value={{ setUser, user, loading }}>
+    <AuthContext.Provider
+      value={{ setUser, user, loading, addPost, setAddPost }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );

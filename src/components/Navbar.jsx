@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+// import AddPost from "./AddPost";
 import instagram from "../assets/instagram.png";
 import { ReactComponent as HomeSvg } from "../assets/svgs/home.svg";
 import { ReactComponent as Add } from "../assets/svgs/add.svg";
+import { ReactComponent as AddPhoto } from "../assets/svgs/addPhoto.svg";
 import {
   AppBar,
   Avatar,
@@ -17,10 +19,13 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-
+import { useAuth } from "../context/AuthContext";
+import AddPost from "./AddPost";
 const Navbar = () => {
+  const { setAddPost, addPost } = useAuth();
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -44,7 +49,11 @@ const Navbar = () => {
     <div>
       <div style={{ height: "100%" }}>
         <CssBaseline />
-        <AppBar position="static" sx={{ background: "white" }}>
+        <AppBar
+          position="fixed"
+          sx={{ background: "white" }}
+          // position="static"
+        >
           <Container maxWidth="lg">
             <Box
               display="flex"
@@ -71,12 +80,17 @@ const Navbar = () => {
                   height="10px"
                 />
                 <IconButton
+                  onClick={() => navigate("/")}
                   aria-label="go to home"
                   sx={{ pl: 1, ml: { md: 1 } }}
                 >
                   <HomeSvg />
                 </IconButton>
-                <IconButton aria-label="add media" sx={{ pl: 1 }}>
+                <IconButton
+                  onClick={() => setAddPost(!addPost)}
+                  aria-label="add media"
+                  sx={{ pl: 1 }}
+                >
                   <Add />
                 </IconButton>
                 <Box>
@@ -132,6 +146,7 @@ const Navbar = () => {
             </Box>
           </Container>
         </AppBar>
+        {addPost && <AddPost />}
       </div>
     </div>
   );

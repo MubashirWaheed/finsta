@@ -1,16 +1,19 @@
+import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import PrivateRoutes from "./components/PrivateRoutes";
-import { CssBaseline } from "@mui/material";
+import SignUp from "./pages/SignUp";
+import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
-import { AuthContextProvider } from "../src/context/AuthContext";
+import PrivateRoutes from "./components/PrivateRoutes";
 import ProtectedAuth from "./components/ProtectedAuth";
+import { AuthContextProvider } from "../src/context/AuthContext";
 
 function App() {
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <CssBaseline />
+
       <BrowserRouter>
         <AuthContextProvider>
           <Routes>
@@ -23,6 +26,15 @@ function App() {
               }
             />
             <Route
+              path="/signup"
+              element={
+                <ProtectedAuth>
+                  <SignUp />
+                </ProtectedAuth>
+              }
+            />
+
+            <Route
               path="/"
               element={
                 <PrivateRoutes>
@@ -30,7 +42,22 @@ function App() {
                 </PrivateRoutes>
               }
             />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoutes>
+                  <Settings />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoutes>
+                  <Profile />
+                </PrivateRoutes>
+              }
+            />
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>
